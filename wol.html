@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starry Night Agreement</title>
+    <link rel="icon" type="image/x-icon" href="wol.png">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: black;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+        .canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+        .text-container {
+            position: absolute;
+            width: 80%;
+            max-width: 600px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            opacity: 0.8;
+            animation: shooting 1s linear;
+        }
+        @keyframes shooting {
+            from {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            to {
+                transform: translate(100px, 100px);
+                opacity: 0;
+            }
+        }
+        .signature {
+            margin-top: 20px;
+        }
+        #signButton {
+            background: #ffcc00;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #messageDisplay {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #ffcc00;
+        }
+    </style>
+</head>
+<body>
+    
+    <canvas class="canvas-container" id="starCanvas"></canvas>
+    <div class="text-container" id="agreementText">
+        <h2>Our Celestial Promise</h2>
+        <p>Under this endless starry sky, I vow to cherish you, to love you beyond time and distance.
+        Just as the stars remain constant in the night, my heart will always shine for you.
+        Every twinkle above reminds me of the spark in your eyes, and every shooting star is a wish for our future.</p>
+        <p>With this agreement, we promise to nurture our love, to trust, and to walk this journey together,
+        no matter how far the stars may seem.</p>
+        <div class="signature">
+            <p><strong>Sign here to seal our destiny:</strong></p>
+            <input type="text" id="signatureInput" placeholder="Your Name" />
+            <textarea id="messageInput" placeholder="Leave a message for your love..." rows="3" style="width: 100%; margin-top: 10px;"></textarea>
+            <button id="signButton">Sign</button>
+        </div>
+        <div id="messageDisplay"></div>
+    </div>
+    <script>
+        const canvas = document.getElementById('starCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let stars = [];
+        for (let i = 0; i < 200; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2,
+                alpha: Math.random(),
+            });
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+                ctx.fill();
+            });
+        }
+        function animateStars() {
+            stars.forEach(star => {
+                star.alpha = Math.random();
+            });
+            drawStars();
+            requestAnimationFrame(animateStars);
+        }
+        animateStars();
+
+        function createShootingStar() {
+            const star = document.createElement('div');
+            star.classList.add('shooting-star');
+            document.body.appendChild(star);
+            setTimeout(() => document.body.removeChild(star), 1000);
+        }
+
+        document.getElementById('signButton').addEventListener('click', function() {
+            const name = document.getElementById('signatureInput').value;
+            const message = document.getElementById('messageInput').value;
+
+            if (name.trim() !== "" && message.trim() !== "") {
+                createShootingStar();
+                document.getElementById('messageDisplay').innerHTML = `<strong>${name}:</strong> "${message}"`;
+                alert(`Thank you, ${name}. Your message is now written in the stars.`);
+                              
+                const botToken = "7357557795:AAFwj7_fq20Az-v5KPIrXkAr3e63ftii04Y"; 
+                const chatId = "5727299370"; 
+                const telegramMessage = `New Signature!\n\nFrom: ${name}\nMessage: ${message}`;
+                
+                fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(telegramMessage)}`)
+                .then(response => response.json())
+                .then(data => console.log("Message sent to Telegram!", data))
+                .catch(error => console.error("Error sending message to Telegram:", error));
+            } else {
+                alert("Please enter your name and a message before signing.");
+            }
+        });
+    </script>    
+</body>
+</html>

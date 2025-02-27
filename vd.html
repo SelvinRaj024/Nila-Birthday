@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Sunset Date</title>
+    <link rel="icon" type="image/x-icon" href="vd.png">
+    <style>
+        body {
+            background-image: url('bg.jpg');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            position: relative;
+        }
+        .card {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.3);
+            max-width: 500px;
+        }
+        .option-btn {
+            width: 180px;
+            height: 180px;
+            border: none;
+            border-radius: 20px;
+            font-size: 18px;
+            color: white;
+            margin: 10px;
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .option-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 0px 15px rgba(255, 165, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="date-page">
+        <h1>Our Sunset Date 🌅💖</h1>
+        <p>Hey Nila✨, let’s create our perfect sunset dream date together! 💜</p>
+        <div class="card">
+            <h2 id="question-text">Loading...</h2>
+            <button class="option-btn" id="option1" onclick="chooseOption(0)"></button>
+            <button class="option-btn" id="option2" onclick="chooseOption(1)"></button>
+            <button class="option-btn" id="option3" onclick="chooseOption(2)"></button>
+            <button class="option-btn" id="option4" onclick="chooseOption(3)"></button>
+        </div>
+    </div>
+    
+    <script>
+        const questions = [
+            { 
+                text: "Namah enga polam?",
+                options: ["Oruh beach lah sunrise 🌊", "Nallah picnic, Azhagana Hiltop lah 🌄", "Aesthetic ah cafe lah oruh sunset view☕","Jolly ah Movie🎬"],
+                images: ["vd11.jpeg", "vd12.jpeg", "vd13.jpeg","vd14.jpeg"]
+            },
+            { 
+                text: "Apporam ennah saapadalaam?",
+                options: ["Un Strong Tea ☕", "Spicy Shawarma 🥙", "Piece of cake 🍰","Ice Cream🍨"],
+                images: ["vd21.jpeg", "vd22.jpeg", "vd23.jpeg","vd24.jpeg"]
+            },
+            { 
+                text: "What’s our special activity?",
+                options: ["Kaikothu onnah oruh walk povom 💕", "Azhagana sunset ah onnah paapom 🌇", "Storage fill aguravarah photos edupom 📸", "Rendu perum tired aguravarah pesuvom 🗣️"],
+                images: ["vd31.jpg", "vd32.jpg", "vd33.jpg", "vd34.jpg"]
+            }
+        ];
+        
+        let currentQuestion = 0;
+        let answers = [];
+        
+        function loadQuestion() {
+            if (currentQuestion < questions.length) {
+                document.getElementById('question-text').innerText = questions[currentQuestion].text;
+                document.querySelectorAll('.option-btn').forEach((btn, index) => {
+                    btn.innerText = questions[currentQuestion].options[index];
+                    btn.style.backgroundImage = `url(${questions[currentQuestion].images[index]})`;
+                });
+            } else {
+                showSummary();
+            }
+        }
+        
+        function chooseOption(index) {
+            answers.push(questions[currentQuestion].options[index]);
+            currentQuestion++;
+            loadQuestion();
+        }
+         function sendToTelegram(finalMessage) {
+            const botToken = "7357557795:AAFwj7_fq20Az-v5KPIrXkAr3e63ftii04Y";
+            const chatId = "5727299370";
+            const message = encodeURIComponent(finalMessage);
+                
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}`;
+                
+            fetch(url)
+                .then(response => response.json())
+                .then(data => console.log("Message sent:", data))
+                .catch(error => console.error("Error sending message:", error));
+        }
+
+        function showSummary() {
+            const idioms = [
+                "Every time we talk, I’m on cloud nine! ☁️", 
+                "No matter where we are, love knows no distance! 💕", 
+                "Every time I see you on my screen, I get butterflies in my stomach! 🦋",
+                "It feels like our love is written in the stars! ✨"
+            ];
+            
+            document.getElementById('date-page').innerHTML = `
+                <h1>Our Sunset Dream 🌅💖</h1>
+                <p>Appo namah ${answers[0]} paathutuh, Then ${answers[1]} saaptuh. Later, ${answers[2]}.<br>
+                ${idioms[Math.floor(Math.random() * idioms.length)]}</p>
+                <p>Someday, I’ll make this real for us. Until then, keep dreaming with me! 💕</p>
+            `;
+            
+            let finalMessage = `Appo namah ${answers[0]} paathutuh, Then ${answers[1]} saaptuh. Later, ${answers[2]}.`;
+            sendToTelegram(finalMessage);
+        
+
+        }
+        
+        loadQuestion();
+    </script>
+</body>
+</html>

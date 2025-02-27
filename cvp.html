@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Path</title>
+    <link rel="icon" type="image/x-icon" href="cvp.png">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1E1E2E, #3A3D5E);
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            color: white;
+        }
+        .container {
+            display: flex;
+            gap: 40px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            width: 250px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+        }
+        .card h2 {
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 16px;
+            color: white;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        .back {
+            margin-top: 30px;
+            float:none;
+        }
+        .back a {
+            color: #16213e;
+            font-size: 1.5rem;
+            text-decoration: none;
+            padding: 12px 18px;
+            background: gold;
+            border-radius: 10px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .back a:hover {
+            background: gold;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2>Quiz 🤔</h2>
+            <p></p>
+            <a href="quiz.html" target="_blank" class="btn">Go Now</a>
+        </div>
+        <div class="card">
+            <h2>Virtual Dream ✨</h2>
+            <p></p>
+            <a href="vd.html" target="_blank" class="btn">Enter Here</a>
+        </div>
+        <div class="back">
+            <a href="index.html">Go Back...😏</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Quiz</title>
+    <link rel="icon" type="image/x-icon" href="quiz.png">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #A3D5FF, #FFFFFF);
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+        }
+        .question-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            transition: transform 0.3s;
+        }
+        button {
+            background: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: box-shadow 0.3s;
+        }
+        button:hover {
+            background: #357ABD;
+            box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.6);
+        }
+        .clouds {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            pointer-events: none;
+            font-size: 80px;
+            z-index: 1;
+        }
+        .cloud {
+            position: absolute;
+            opacity: 0.7;
+            animation: floatClouds 20s linear infinite;
+        }
+        .sun {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #FFD700, #FFA500);
+            border-radius: 50%;
+            animation: sunGlow 4s ease-in-out infinite alternate;
+            z-index: 1;
+        }
+        @keyframes floatClouds {
+            from { transform: translateX(-200px); }
+            to { transform: translateX(100vw); }
+        }
+        @keyframes sunGlow {
+            from { transform: scale(1); opacity: 0.8; }
+            to { transform: scale(1.1); opacity: 1; }
+        }
+        .end-page {
+            display: none;
+            text-align: center;
+            font-size: 24px;
+        }
+        .end-heart {
+            font-size: 50px;
+            animation: heartbeat 1s infinite;
+            color: red;
+        }
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <audio loop autoplay>
+        <source src="background-music.mp3" type="audio/mpeg">
+    </audio>
+    <div class="clouds">
+        <div class="cloud" style="top: 10%; animation-duration: 25s;">☁️</div>
+        <div class="cloud" style="top: 40%; animation-duration: 30s;">☁️</div>
+        <div class="cloud" style="top: 70%; animation-duration: 35s;">☁️</div>
+    </div>
+    <div class="sun"></div>
+    
+    <div class="container" id="greeting-page">
+        <h1>Welcome, My Love! 💙</h1>
+        <p>My dearest Nila😍, this is a special journey for you. Let’s begin! ✨</p>
+        <button onclick="startQuiz()">Start Quiz</button>
+    </div>
+    
+    <div class="container" id="quiz-page" style="display: none;">
+        <div class="question-card">
+            <h2 id="question-text">Loading...</h2>
+            <button onclick="sendAnswer('Yes')">Yes</button>
+            <button onclick="sendAnswer('No')">No</button>
+        </div>
+    </div>
+    
+    <div class="container" id="end-page">
+        <h2>💙 My Love, You Completed the Quiz! 💙</h2>
+        <p>You are my happiness, my joy, and my everything. I can’t wait for our beautiful future together. 🌟</p>
+        <p class="end-heart">❤️</p>
+        <p>Sending you a big virtual hug and all my love! 💖</p>
+    </div>
+    
+
+    <script>
+        const questions = [
+            "Do you remember the exact date we started talking? 👀",
+            "Did I say something that made you smile😃 the first time we talked? 🫣",
+            "Do you feel safe 😇 and happy 😊 when you talk to me?",
+            "Do you think about me before sleeping? 😏",
+            "Would you want to go on a long trip 🫰 with me someday?",
+            "Do you feel butterflies 🦋 when you talk to me?",
+            "Have I ever made you laugh so hard 🤣 that you couldn't stop 🤔?",
+            "Do you believe our love is strong enough to overcome any distance 🫣?",
+            "Have you ever wished to hold my hand 🫱🏻‍🫲🏽 and rest your head on my shoulder 🥰? ",
+            "Do you see a beautiful future ahead for us? 🫣",
+            "Have you ever wanted to just sit in silence with me 👥, feeling our love without words ✨?",
+            "Are you excited for the day we finally meet in person 😍?",
+            "Have you ever imagined falling asleep in my arms 💤?",
+            "Do you ever wish you could hug me tight 🤗 whenever you miss me?",
+            "Do you ever wish you could wake up next to me every morning 🥰?",
+        ];
+        
+        let currentQuestion = 0;
+        
+        function startQuiz() {
+            document.getElementById('greeting-page').style.display = 'none';
+            document.getElementById('quiz-page').style.display = 'flex';
+            loadQuestion();
+        }
+        
+        function loadQuestion() {
+            if (currentQuestion < questions.length) {
+                document.getElementById('question-text').innerText = questions[currentQuestion];
+            } else {
+                document.getElementById('quiz-page').style.display = 'none';
+            }
+        }
+        
+        function sendAnswer(answer) {
+            const botToken = "7357557795:AAFwj7_fq20Az-v5KPIrXkAr3e63ftii04Y";
+            const chatId = "5727299370";
+            const message = `Q: ${questions[currentQuestion]}\nA: ${answer}`;
+            
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ chat_id: chatId, text: message })
+            });
+            
+            currentQuestion++;
+            loadQuestion();
+        }
+    </script>
+</body>
+</html>
